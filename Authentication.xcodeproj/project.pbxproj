@@ -13,9 +13,10 @@
 		4D8135831D4AA2640099FFBD /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D8135801D4AA2640099FFBD /* FBSDKLoginKit.framework */; };
 		4D8135841D4AA2640099FFBD /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D8135811D4AA2640099FFBD /* FBSDKShareKit.framework */; };
 		4D8135861D4B38CB0099FFBD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D8135851D4B38CB0099FFBD /* Assets.xcassets */; };
+		4DBB8FA11D7D53A400784371 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DBB8FA01D7D53A400784371 /* Main.storyboard */; };
+		4DBB8FA31D7D53B000784371 /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBB8FA21D7D53B000784371 /* ProfileTableViewController.swift */; };
 		4DE14CD11D477BD300656F03 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE14CD01D477BD300656F03 /* AppDelegate.swift */; };
 		4DE14CD31D477BD300656F03 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE14CD21D477BD300656F03 /* LoginViewController.swift */; };
-		4DE14CD61D477BD300656F03 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DE14CD41D477BD300656F03 /* Main.storyboard */; };
 		4DE14CD91D477BD300656F03 /* Authentication.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4DE14CD71D477BD300656F03 /* Authentication.xcdatamodeld */; };
 		4DE14CDE1D477BD300656F03 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DE14CDC1D477BD300656F03 /* LaunchScreen.storyboard */; };
 		4DE14CE91D477BD300656F03 /* AuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE14CE81D477BD300656F03 /* AuthenticationTests.swift */; };
@@ -48,10 +49,11 @@
 		4D8135801D4AA2640099FFBD /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		4D8135811D4AA2640099FFBD /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		4D8135851D4B38CB0099FFBD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4DBB8FA01D7D53A400784371 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		4DBB8FA21D7D53B000784371 /* ProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
 		4DE14CCD1D477BD300656F03 /* Authentication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Authentication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DE14CD01D477BD300656F03 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4DE14CD21D477BD300656F03 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		4DE14CD51D477BD300656F03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4DE14CD81D477BD300656F03 /* Authentication.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Authentication.xcdatamodel; sourceTree = "<group>"; };
 		4DE14CDD1D477BD300656F03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4DE14CDF1D477BD300656F03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -145,7 +147,8 @@
 				4DE14CD21D477BD300656F03 /* LoginViewController.swift */,
 				4D461F5E1D4A04E3007EB2FF /* SignUpViewController.swift */,
 				4D2968091D4CD3C000E971DF /* MainViewController.swift */,
-				4DE14CD41D477BD300656F03 /* Main.storyboard */,
+				4DBB8FA21D7D53B000784371 /* ProfileTableViewController.swift */,
+				4DBB8FA01D7D53A400784371 /* Main.storyboard */,
 				4DE14D031D477BEC00656F03 /* Supporting Files */,
 			);
 			path = Authentication;
@@ -294,7 +297,7 @@
 				4DE14CDE1D477BD300656F03 /* LaunchScreen.storyboard in Resources */,
 				4DE14D021D477BDD00656F03 /* GoogleService-Info.plist in Resources */,
 				4D8135861D4B38CB0099FFBD /* Assets.xcassets in Resources */,
-				4DE14CD61D477BD300656F03 /* Main.storyboard in Resources */,
+				4DBB8FA11D7D53A400784371 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +370,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DBB8FA31D7D53B000784371 /* ProfileTableViewController.swift in Sources */,
 				4DE14CD31D477BD300656F03 /* LoginViewController.swift in Sources */,
 				4DE14CD91D477BD300656F03 /* Authentication.xcdatamodeld in Sources */,
 				4D461F5F1D4A04E3007EB2FF /* SignUpViewController.swift in Sources */,
@@ -407,14 +411,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		4DE14CD41D477BD300656F03 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4DE14CD51D477BD300656F03 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		4DE14CDC1D477BD300656F03 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

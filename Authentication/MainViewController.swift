@@ -12,6 +12,10 @@ import FirebaseAuth
 
 class MainViewController: UIViewController {
 
+    @IBOutlet weak var nameTextField: UILabel!
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var typeOfAccTextField: UILabel!
+    @IBOutlet weak var loadingSpinner: UIActivityIndicatorView!
     
     @IBAction func logOut() {
         
@@ -28,6 +32,8 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.navigationBarHidden = true
 
         // Do any additional setup after loading the view.
     }

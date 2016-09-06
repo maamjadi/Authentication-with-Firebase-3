@@ -103,10 +103,7 @@ class LoginViewController: UIViewController {
                 let credential = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)
                 FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
                     
-                    let alertController = UIAlertController(title: "Alert", message: "You have been loged in", preferredStyle: .Alert)
-                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-                    
-                    self.presentViewController(alertController, animated: true, completion: nil)
+                    print("You have been loged in")
                 }
             }
             
