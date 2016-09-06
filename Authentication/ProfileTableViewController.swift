@@ -48,14 +48,12 @@ class ProfileTableViewController: UITableViewController {
         self.emailTextField.text = email
         self.nameTextField.text = name
         
-        // Get a reference to the storage service, using the default Firebase App
         let storage = FIRStorage.storage()
         // Create a storage reference from our storage service
         let storageRef = storage.referenceForURL("gs://test-ae2fd.appspot.com")
-        let profilePicRef = storageRef.child("Profile pic"+"/\(user?.uid).jpg")
+        let profilePicRef = storageRef.child("images"+"/Profile pictures"+"/\(user?.uid).jpg")
         
-        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-        profilePicRef.dataWithMaxSize(2 * 1024 * 1024) { (data, error) -> Void in
+        profilePicRef.dataWithMaxSize(1 * 1024 * 1024) { (data, error) -> Void in
             if (error != nil) {
                 // Uh-oh, an error occurred!
                 print("Unable to download image")
@@ -64,7 +62,6 @@ class ProfileTableViewController: UITableViewController {
                 // ... let islandImage: UIImage! = UIImage(data: data!)
                 
                 if data != nil {
-                    print("user already has an image, no need to download from facebook")
                     self.profileImage.image = UIImage(data: data!)
                 }
             }
@@ -167,13 +164,13 @@ class ProfileTableViewController: UITableViewController {
                 if self.nameTextField.text != nil {
                     changeRequest.displayName = self.nameTextField.text
                 }
-                
-                if profileImage.image != nil {
+                let image = UIImage(named: "profile pic")
+                if profileImage.image != image {
                     // Get a reference to the storage service, using the default Firebase App
                     let storage = FIRStorage.storage()
                     // Create a storage reference from our storage service
                     let storageRef = storage.referenceForURL("gs://test-ae2fd.appspot.com")
-                    let profilePicRef = storageRef.child("Profile pic"+"/\(user.uid).jpg")
+                    let profilePicRef = storageRef.child("images"+"/Profile pictures"+"/\(user.uid).jpg")
                     let data: NSData = UIImageJPEGRepresentation(self.profileImage.image!, 1)!
                     let uploadTask = profilePicRef.putData(data, metadata: nil) { metadata, error in
                         if (error != nil) {

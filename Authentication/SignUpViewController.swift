@@ -7,7 +7,9 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
+import FirebaseStorage
+import FirebaseDatabase
 
 class SignUpViewController: UIViewController {
     
@@ -73,7 +75,7 @@ class SignUpViewController: UIViewController {
     
     
     @IBAction func signUp() {
-        if let name = nameTextField.text {
+        if let name = nameTextField.text where nameTextField.text != ""{
             if let email = emailTextField.text {
                 if let pass = passwordTextField.text {
                     if let verPass = vertifyPassTextField.text {
@@ -96,6 +98,12 @@ class SignUpViewController: UIViewController {
                                         
                                         print("You have been signed up successfuly")
                                         
+                                        let storage = FIRStorage.storage()
+                                        // Create a storage reference from our storage service
+                                        let storageRef = storage.referenceForURL("gs://test-ae2fd.appspot.com")
+                                        let profilePicRef = storageRef.child("images"+"/Profile pictures"+"/\(user.uid).jpg")
+
+                                        
                                         self.ref.child("Users").child(user.uid).child("Licence/Type").setValue("free")
                                         self.ref.child("User").child(user.uid).child("Licence/Date of creation").setValue(FIRServerValue.timestamp())
                                         
@@ -109,12 +117,29 @@ class SignUpViewController: UIViewController {
                                                 // Profile updated.
                                             }
                                         }
+                                        
+//                                        if let imageData = NSData
+//                                            
+//                                            let uploadTask = profilePicRef.putData(imageData, metadata:nil) { metadata,error in
+//                                                
+//                                                if error == nil {
+//                                                    //size, content type or the download URL
+//                                                    let downloadURL = metadata!.downloadURL
+//                                                    self.profilePicExistInStorage = true
+//                                                } else {
+//                                                    print("error in downloading image")
+//                                                }
+//                                            }
+//                                            self.profileImage.image = UIImage(data: imageData)
+//                                        }
+//                                    }
+
+                                        
                                     }
                                     
                                 }
                             })
-                        }
-                        else {
+                        } else {
                             let alertController = UIAlertController(title: "Warning", message: "Your passwords doesn't match", preferredStyle: .Alert)
                             alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
                             
@@ -124,12 +149,12 @@ class SignUpViewController: UIViewController {
                     }
                 }
             }
-        }
+        } else {
         let alertController = UIAlertController(title: "Warning", message: "Please fill all the informations", preferredStyle: .Alert)
         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
         
         self.presentViewController(alertController, animated: true, completion: nil)
-        
+        }
     }
     
     func hidden(bool: Bool) {

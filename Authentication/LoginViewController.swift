@@ -11,11 +11,12 @@ import Firebase
 import FBSDKLoginKit
 
 class LoginViewController: UIViewController {
-
+    
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var fbLoginButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var startingViewSpinner: UIActivityIndicatorView!
     
     override func viewDidLoad() {
@@ -51,7 +52,7 @@ class LoginViewController: UIViewController {
     @IBAction func login() {
         if let email = emailTextField.text {
             if let pass = passwordTextField.text {
-        
+                
                 FIRAuth.auth()?.signInWithEmail(email, password: pass, completion: { (user, error) in
                     
                     if error != nil {
@@ -108,14 +109,15 @@ class LoginViewController: UIViewController {
             }
             
         })
-
+        
     }
     
     func hidden(bool: Bool) {
-    self.fbLoginButton.hidden = bool
-    self.loginButton.hidden = bool
-    self.emailTextField.hidden = bool
-    self.passwordTextField.hidden = bool
+        self.fbLoginButton.hidden = bool
+        self.loginButton.hidden = bool
+        self.emailTextField.hidden = bool
+        self.passwordTextField.hidden = bool
+        self.signUpButton.hidden = bool
     }
     
 }
