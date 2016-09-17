@@ -24,13 +24,13 @@ class LoginViewController: UIViewController {
         
         self.hidden(false)
         
-        FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in
+        FIRAuth.auth()?.addStateDidChangeListener { auth, user in
             if let user = user {
                 // User is signed in.
                 let mainStoryBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let mainViewController: UIViewController = mainStoryBoard.instantiateViewControllerWithIdentifier("mainView")
+                let mainViewController: UIViewController = mainStoryBoard.instantiateViewController(withIdentifier: "mainView")
                 
-                self.presentViewController(mainViewController, animated: true, completion: nil)
+                self.present(mainViewController, animated: true, completion: nil)
             }
             else {
                 // No user is signed in.
@@ -53,19 +53,19 @@ class LoginViewController: UIViewController {
         if let email = emailTextField.text {
             if let pass = passwordTextField.text {
                 
-                FIRAuth.auth()?.signInWithEmail(email, password: pass, completion: { (user, error) in
+                FIRAuth.auth()?.signIn(withEmail: email, password: pass, completion: { (user, error) in
                     
                     if error != nil {
-                        let alertController = UIAlertController(title: "Alert", message: "Error", preferredStyle: .Alert)
-                        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                        let alertController = UIAlertController(title: "Alert", message: "Error", preferredStyle: .alert)
+                        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                         
-                        self.presentViewController(alertController, animated: true, completion: nil)
+                        self.present(alertController, animated: true, completion: nil)
                     }
                     else {
-                        let alertController = UIAlertController(title: "Alert", message: "You have been loged in", preferredStyle: .Alert)
-                        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                        let alertController = UIAlertController(title: "Alert", message: "You have been loged in", preferredStyle: .alert)
+                        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                         
-                        self.presentViewController(alertController, animated: true, completion: nil)
+                        self.present(alertController, animated: true, completion: nil)
                     }
                     
                 })
@@ -80,29 +80,29 @@ class LoginViewController: UIViewController {
         self.startingViewSpinner.startAnimating()
         
         let login: FBSDKLoginManager = FBSDKLoginManager()
-        login.logInWithReadPermissions(["public_profile", "email", "user_friends"], fromViewController: self, handler: { (result, error) -> Void in
+        login.logIn(withReadPermissions: ["public_profile", "email", "user_friends"], from: self, handler: { (result, error) -> Void in
             
             if error != nil {
                 self.hidden(false)
                 self.startingViewSpinner.stopAnimating()
-                let alertController = UIAlertController(title: "Alert", message: "Error...", preferredStyle: .Alert)
-                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                let alertController = UIAlertController(title: "Alert", message: "Error...", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                 
-                self.presentViewController(alertController, animated: true, completion: nil)
+                self.present(alertController, animated: true, completion: nil)
             }
                 
-            else if result.isCancelled {
+            else if (result?.isCancelled)! {
                 self.hidden(false)
                 self.startingViewSpinner.stopAnimating()
-                let alertController = UIAlertController(title: "Alert", message: "Process Canceled...", preferredStyle: .Alert)
-                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                let alertController = UIAlertController(title: "Alert", message: "Process Canceled...", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                 
-                self.presentViewController(alertController, animated: true, completion: nil)
+                self.present(alertController, animated: true, completion: nil)
             }
                 
             else {
-                let credential = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)
-                FIRAuth.auth()?.signInWithCredential(credential) { (user, error) in
+                let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+                FIRAuth.auth()?.signIn(with: credential) { (user, error) in
                     
                     print("You have been loged in")
                 }
@@ -112,12 +112,12 @@ class LoginViewController: UIViewController {
         
     }
     
-    func hidden(bool: Bool) {
-        self.fbLoginButton.hidden = bool
-        self.loginButton.hidden = bool
-        self.emailTextField.hidden = bool
-        self.passwordTextField.hidden = bool
-        self.signUpButton.hidden = bool
+    func hidden(_ bool: Bool) {
+        self.fbLoginButton.isHidden = bool
+        self.loginButton.isHidden = bool
+        self.emailTextField.isHidden = bool
+        self.passwordTextField.isHidden = bool
+        self.signUpButton.isHidden = bool
     }
     
 }

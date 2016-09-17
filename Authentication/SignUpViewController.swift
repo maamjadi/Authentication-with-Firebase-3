@@ -19,9 +19,11 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var vertifyPassTextField: UITextField!
     @IBOutlet weak var loadingSpinner: UIActivityIndicatorView!
+    @IBOutlet weak var signUpButton: UIButton!
     
     let imagePicker = UIImagePickerController()
-    var selectedPhoto = UIImage!(nil)
+    var selectedPhoto: UIImage! = UIImage(named: "profile pic")!
+    
     
     let ref = FIRDatabase.database().reference()
     
@@ -30,13 +32,13 @@ class SignUpViewController: UIViewController {
         
         self.hidden(false)
         
-        FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in
+        FIRAuth.auth()?.addStateDidChangeListener { auth, user in
             if let user = user {
                 // User is signed in.
                 let mainStoryBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let mainViewController: UIViewController = mainStoryBoard.instantiateViewControllerWithIdentifier("mainView")
+                let mainViewController: UIViewController = mainStoryBoard.instantiateViewController(withIdentifier: "mainView")
                 
-                self.presentViewController(mainViewController, animated: true, completion: nil)
+                self.present(mainViewController, animated: true, completion: nil)
             }
             else {
                 // No user is signed in.
@@ -60,109 +62,64 @@ class SignUpViewController: UIViewController {
         view.endEditing(true)
     }
     
-    func selectPhoto(gestureRecognizer: UITapGestureRecognizer)
+    func selectPhoto(_ gestureRecognizer: UITapGestureRecognizer)
     {
         self.imagePicker.delegate = self
         self.imagePicker.allowsEditing = true
-        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-            self.imagePicker.sourceType = .Camera
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            self.imagePicker.sourceType = .camera
         } else {
-            self.imagePicker.sourceType = .PhotoLibrary
+            self.imagePicker.sourceType = .photoLibrary
         }
         
-        self.presentViewController(imagePicker, animated: true, completion: nil)
+        self.present(imagePicker, animated: true, completion: nil)
     }
     
     
     @IBAction func signUp() {
-        if let name = nameTextField.text where nameTextField.text != ""{
-            if let email = emailTextField.text {
-                if let pass = passwordTextField.text {
-                    if let verPass = vertifyPassTextField.text {
-                        if pass == verPass {
-                            self.hidden(true)
-                            self.loadingSpinner.startAnimating()
-                            
-                            FIRAuth.auth()?.createUserWithEmail(email, password: pass, completion: { (user , error) in
-                                if error != nil {
-                                    self.hidden(false)
-                                    self.loadingSpinner.stopAnimating()
-                                    let alertController = UIAlertController(title: "Alert", message: "Error", preferredStyle: .Alert)
-                                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-                                    
-                                    self.presentViewController(alertController, animated: true, completion: nil)
-                                    
-                                }
-                                else {
-                                    if let user = FIRAuth.auth()?.currentUser {
-                                        
-                                        print("You have been signed up successfuly")
-                                        
-                                        let storage = FIRStorage.storage()
-                                        // Create a storage reference from our storage service
-                                        let storageRef = storage.referenceForURL("gs://test-ae2fd.appspot.com")
-                                        let profilePicRef = storageRef.child("images"+"/Profile pictures"+"/\(user.uid).jpg")
-
-                                        
-                                        self.ref.child("Users").child(user.uid).child("Licence/Type").setValue("free")
-                                        self.ref.child("User").child(user.uid).child("Licence/Date of creation").setValue(FIRServerValue.timestamp())
-                                        
-                                        let changeRequest = user.profileChangeRequest()
-                                        
-                                        changeRequest.displayName = self.nameTextField.text
-                                        changeRequest.commitChangesWithCompletion { error in
-                                            if let error = error {
-                                                // An error happened.
-                                            } else {
-                                                // Profile updated.
-                                            }
-                                        }
-                                        
-//                                        if let imageData = NSData
-//                                            
-//                                            let uploadTask = profilePicRef.putData(imageData, metadata:nil) { metadata,error in
-//                                                
-//                                                if error == nil {
-//                                                    //size, content type or the download URL
-//                                                    let downloadURL = metadata!.downloadURL
-//                                                    self.profilePicExistInStorage = true
-//                                                } else {
-//                                                    print("error in downloading image")
-//                                                }
-//                                            }
-//                                            self.profileImage.image = UIImage(data: imageData)
-//                                        }
-//                                    }
-
-                                        
-                                    }
-                                    
-                                }
-                            })
-                        } else {
-                            let alertController = UIAlertController(title: "Warning", message: "Your passwords doesn't match", preferredStyle: .Alert)
-                            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-                            
-                            self.presentViewController(alertController, animated: true, completion: nil)
-                            
-                        }
+        guard let name = nameTextField.text , !name.isEmpty, let email = emailTextField.text , !email.isEmpty, let pass = passwordTextField.text , !pass.isEmpty, let verPass = vertifyPassTextField.text , !verPass.isEmpty else {
+            
+            let alertController = UIAlertController(title: "Warning", message: "Please fill all the informations", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            
+            self.present(alertController, animated: true, completion: nil)
+            
+            return
+        }
+        if let pass = passwordTextField.text {
+            if let verPass = vertifyPassTextField.text {
+                if pass == verPass {
+                    self.hidden(true)
+                    self.loadingSpinner.startAnimating()
+                    var data = Data()
+                    data = UIImageJPEGRepresentation(profileImage.image!, 0.1)!
+                    if UserService.userService.signUp(nameTextField.text!, email: emailTextField.text!, pass: passwordTextField.text!, imageData: data) {
+                        
+                    } else {
+                        self.hidden(false)
+                        self.loadingSpinner.stopAnimating()
                     }
+                    let appDelegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.login()
+                } else {
+                    let alertController = UIAlertController(title: "Warning", message: "Your passwords doesn't match", preferredStyle: .alert)
+                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    
+                    self.present(alertController, animated: true, completion: nil)
+                    
                 }
             }
-        } else {
-        let alertController = UIAlertController(title: "Warning", message: "Please fill all the informations", preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-        
-        self.presentViewController(alertController, animated: true, completion: nil)
+            
         }
     }
     
-    func hidden(bool: Bool) {
-        self.nameTextField.hidden = bool
-        self.vertifyPassTextField.hidden = bool
-        self.emailTextField.hidden = bool
-        self.passwordTextField.hidden = bool
-        self.profileImage.hidden = bool
+    func hidden(_ bool: Bool) {
+        self.nameTextField.isHidden = bool
+        self.vertifyPassTextField.isHidden = bool
+        self.emailTextField.isHidden = bool
+        self.passwordTextField.isHidden = bool
+        self.profileImage.isHidden = bool
+        self.signUpButton.isHidden = bool
     }
     
     
@@ -172,14 +129,14 @@ extension SignUpViewController: UIImagePickerControllerDelegate, UINavigationCon
     
     //imagePicker Delegate
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         selectedPhoto = info[UIImagePickerControllerEditedImage] as? UIImage
         self.profileImage.image = selectedPhoto
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 

@@ -26,52 +26,55 @@ class MainViewController: UIViewController {
         //signs the user out of firebase app
         try! FIRAuth.auth()!.signOut()
         
-        FBSDKAccessToken.setCurrentAccessToken(nil)
+        FBSDKAccessToken.setCurrent(nil)
         
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let loggingView: UIViewController = mainStoryboard.instantiateViewControllerWithIdentifier("loginView")
+        let loggingView: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "loginView")
         
-        self.presentViewController(loggingView, animated: true, completion: nil)
+        self.present(loggingView, animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        typeOfAccTextField.hidden = true
+        typeOfAccTextField.isHidden = true
+        nameTextField.isHidden = true
         profileImage.layer.cornerRadius = profileImage.frame.size.height/2
         profileImage.clipsToBounds = true
         
-        navigationController?.navigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
         
         if let user = FIRAuth.auth()?.currentUser {
             // User is signed in.
             loadingSpinner.startAnimating()
             
-            let name = user.displayName
+            if let name = user.displayName {
+                nameTextField.text = name
+                nameTextField.isHidden = false  
+            }
             let uid = user.uid
             
-            nameTextField.text = name
-            var refHandle = self.ref.child("Users").observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) in
+            var refHandle = self.ref.child("Users").observe(FIRDataEventType.value, with: { (snapshot) in
                 if snapshot.hasChild((uid) + "/Licence") {
                     let usersDict = snapshot.value as! NSDictionary
                     // ...
-                    let userPersonalInformation = usersDict.objectForKey(uid)?.objectForKey("Licence")
-                    self.typeOfAccTextField.text = userPersonalInformation?.objectForKey("Type") as? String
-                    self.typeOfAccTextField.hidden = false
+                    let userPersonalInformation = (usersDict.object(forKey: uid) as AnyObject).object(forKey: "Licence")
+                    self.typeOfAccTextField.text = (userPersonalInformation as? AnyObject)?.object(forKey: "Type") as? String
+                    self.typeOfAccTextField.isHidden = false
                 }
             })
             if let photoURL = user.photoURL {
-            if let data = NSData(contentsOfURL: photoURL) {
+            if let data = try? Data(contentsOf: photoURL) {
                 self.profileImage.image = UIImage(data: data)
             }
             }
             
             let storage = FIRStorage.storage()
             // Create a storage reference from our storage service
-            let storageRef = storage.referenceForURL("gs://test-ae2fd.appspot.com")
+            let storageRef = storage.reference(forURL: "gs://test-ae2fd.appspot.com")
             let profilePicRef = storageRef.child("images"+"/Profile pictures"+"/\(uid).jpg")
             
-            profilePicRef.dataWithMaxSize(1 * 1024 * 1024) { (data, error) -> Void in
+            profilePicRef.data(withMaxSize: 1 * 1024 * 1024) { (data, error) -> Void in
                 if (error != nil) {
                     // Uh-oh, an error occurred!
                     print("unable to download the image")
@@ -90,18 +93,18 @@ class MainViewController: UIViewController {
             }
             
             if profilePicExistInStorage != true {
-                var profilePic = FBSDKGraphRequest(graphPath: "me/picture", parameters: ["height": 300, "width": 300, "redirect": false], HTTPMethod: "GET")
-                profilePic.startWithCompletionHandler({(connection, result, error) -> Void in
+                var profilePic = FBSDKGraphRequest(graphPath: "me/picture", parameters: ["height": 300, "width": 300, "redirect": false], httpMethod: "GET")
+                profilePic?.start(completionHandler: {(connection, result, error) -> Void in
                     // Handle the result
                     
                     if error == nil {
                         let dictionary = result as? NSDictionary
-                        let data = dictionary?.objectForKey("data")
+                        let data = dictionary?.object(forKey: "data")
                         
-                        let urlPic = (data?.objectForKey("url"))! as! String
-                        if let imageData = NSData(contentsOfURL: NSURL(string: urlPic)!) {
+                        let urlPic = ((data as AnyObject).object(forKey: "url"))! as! String
+                        if let imageData = try? Data(contentsOf: URL(string: urlPic)!) {
                             
-                            let uploadTask = profilePicRef.putData(imageData, metadata:nil) { metadata,error in
+                            let uploadTask = profilePicRef.put(imageData, metadata:nil) { metadata,error in
                                 
                                 if error == nil {
                                     //size, content type or the download URL
@@ -119,7 +122,7 @@ class MainViewController: UIViewController {
             }
             loadingSpinner.stopAnimating()
             if profileImage.image == nil {
-                profileImage.hidden = true
+                profileImage.isHidden = true
             }
             
         } else {

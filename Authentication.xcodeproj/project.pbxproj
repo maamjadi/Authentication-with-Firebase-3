@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D1DE3401D895F14008301FF /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1DE33F1D895F14008301FF /* UserService.swift */; };
 		4D29680A1D4CD3C000E971DF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2968091D4CD3C000E971DF /* MainViewController.swift */; };
 		4D461F5F1D4A04E3007EB2FF /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D461F5E1D4A04E3007EB2FF /* SignUpViewController.swift */; };
 		4D8135821D4AA2640099FFBD /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D81357F1D4AA2640099FFBD /* FBSDKCoreKit.framework */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D1DE33F1D895F14008301FF /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		4D2968091D4CD3C000E971DF /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		4D461F5E1D4A04E3007EB2FF /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		4D81357F1D4AA2640099FFBD /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				4D461F5E1D4A04E3007EB2FF /* SignUpViewController.swift */,
 				4D2968091D4CD3C000E971DF /* MainViewController.swift */,
 				4DBB8FA21D7D53B000784371 /* ProfileTableViewController.swift */,
+				4D1DE33F1D895F14008301FF /* UserService.swift */,
 				4DBB8FA01D7D53A400784371 /* Main.storyboard */,
 				4DE14D031D477BEC00656F03 /* Supporting Files */,
 			);
@@ -256,15 +259,18 @@
 					4DE14CCC1D477BD300656F03 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 7R97N635RG;
+						LastSwiftMigration = 0800;
 					};
 					4DE14CE31D477BD300656F03 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 7R97N635RG;
+						LastSwiftMigration = 0800;
 						TestTargetID = 4DE14CCC1D477BD300656F03;
 					};
 					4DE14CEE1D477BD300656F03 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 7R97N635RG;
+						LastSwiftMigration = 0800;
 						TestTargetID = 4DE14CCC1D477BD300656F03;
 					};
 				};
@@ -370,6 +376,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D1DE3401D895F14008301FF /* UserService.swift in Sources */,
 				4DBB8FA31D7D53B000784371 /* ProfileTableViewController.swift in Sources */,
 				4DE14CD31D477BD300656F03 /* LoginViewController.swift in Sources */,
 				4DE14CD91D477BD300656F03 /* Authentication.xcdatamodeld in Sources */,
@@ -520,6 +527,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MDJD.Authentication;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -538,6 +546,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MDJD.Authentication;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -549,6 +558,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MDJD.AuthenticationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Authentication.app/Authentication";
 			};
 			name = Debug;
@@ -561,6 +571,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MDJD.AuthenticationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Authentication.app/Authentication";
 			};
 			name = Release;
@@ -572,6 +583,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MDJD.AuthenticationUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Authentication;
 			};
 			name = Debug;
@@ -583,6 +595,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MDJD.AuthenticationUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Authentication;
 			};
 			name = Release;

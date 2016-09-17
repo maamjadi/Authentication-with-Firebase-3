@@ -22,7 +22,7 @@ class ProfileTableViewController: UITableViewController {
     @IBOutlet weak var verifyPassTextField: UITextField!
     
     let imagePicker = UIImagePickerController()
-    var selectedPhoto = UIImage!(nil)
+    var selectedPhoto: UIImage! = UIImage(named: "profile pic")! //we have changed it from UIImage!(nil) to this cz of error for swift 3
     var successfullyUpdated: Bool = false
     
     let ref = FIRDatabase.database().reference()
@@ -50,10 +50,10 @@ class ProfileTableViewController: UITableViewController {
         
         let storage = FIRStorage.storage()
         // Create a storage reference from our storage service
-        let storageRef = storage.referenceForURL("gs://test-ae2fd.appspot.com")
+        let storageRef = storage.reference(forURL: "gs://test-ae2fd.appspot.com") //changed for referenceForURL swift 3
         let profilePicRef = storageRef.child("images"+"/Profile pictures"+"/\(user?.uid).jpg")
         
-        profilePicRef.dataWithMaxSize(1 * 1024 * 1024) { (data, error) -> Void in
+        profilePicRef.data(withMaxSize: 1 * 1024 * 1024) { (data, error) -> Void in
             if (error != nil) {
                 // Uh-oh, an error occurred!
                 print("Unable to download image")
@@ -68,12 +68,12 @@ class ProfileTableViewController: UITableViewController {
             
         }
         
-        var refHandle = self.ref.child("Users").observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) in
+        var refHandle = self.ref.child("Users").observe(FIRDataEventType.value, with: { (snapshot) in
             if snapshot.hasChild((self.user?.uid)! + "/Personal information") {
             let usersDict = snapshot.value as! NSDictionary
             // ...
-            let userPersonalInformation = usersDict.objectForKey(self.user!.uid)?.objectForKey("Personal information")
-            self.birthdayTextField.text = userPersonalInformation?.objectForKey("Birthday") as? String
+                let userPersonalInformation = (usersDict.object(forKey: self.user!.uid) as AnyObject).object(forKey: "Personal information")
+                self.birthdayTextField.text = (userPersonalInformation as? AnyObject)?.object(forKey: "Birthday") as? String
             }
         })
         
@@ -84,34 +84,34 @@ class ProfileTableViewController: UITableViewController {
         view.endEditing(true)
     }
     
-    func selectPhoto(gestureRecognizer: UITapGestureRecognizer)
+    func selectPhoto(_ gestureRecognizer: UITapGestureRecognizer)
     {
         self.imagePicker.delegate = self
         self.imagePicker.allowsEditing = true
-        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-            self.imagePicker.sourceType = .Camera
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            self.imagePicker.sourceType = .camera
         } else {
-            self.imagePicker.sourceType = .PhotoLibrary
+            self.imagePicker.sourceType = .photoLibrary
         }
         
-        self.presentViewController(imagePicker, animated: true, completion: nil)
+        self.present(imagePicker, animated: true, completion: nil)
     }
     
     
     
-    @IBAction func timeTextFieldEditingBegin(sender: UITextField) {
+    @IBAction func timeTextFieldEditingBegin(_ sender: UITextField) {
         let datePickerView:UIDatePicker = UIDatePicker()
-        datePickerView.datePickerMode = UIDatePickerMode.Date
+        datePickerView.datePickerMode = UIDatePickerMode.date
         sender.inputView = datePickerView
-        datePickerView.addTarget(self, action: #selector(self.datePickerValueChanged), forControlEvents: UIControlEvents.ValueChanged)
+        datePickerView.addTarget(self, action: #selector(self.datePickerValueChanged), for: UIControlEvents.valueChanged)
     }
     
-    func datePickerValueChanged(sender:UIDatePicker) {
+    func datePickerValueChanged(_ sender:UIDatePicker) {
         //This will update textfields text with value of datepicker
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
-        birthdayTextField.text = dateFormatter.stringFromDate(sender.date)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.medium
+        dateFormatter.timeStyle = DateFormatter.Style.none
+        birthdayTextField.text = dateFormatter.string(from: sender.date)
         
     }
     
@@ -119,14 +119,14 @@ class ProfileTableViewController: UITableViewController {
         
         if successfullyUpdated == false {
             self.successfullyUpdated = true
-            if let email = self.emailTextField.text where email != ""{
+            if let email = self.emailTextField.text , email != ""{
                 self.user?.updateEmail(email) { error in
                     if let error = error {
                         // An error happened.
-                        let alertControll = UIAlertController(title: "Alert", message: "Please enter valid email address!", preferredStyle: .Alert)
-                        alertControll.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+                        let alertControll = UIAlertController(title: "Alert", message: "Please enter valid email address!", preferredStyle: .alert)
+                        alertControll.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
                         
-                        self.presentViewController(alertControll, animated: true, completion: nil)
+                        self.present(alertControll, animated: true, completion: nil)
                         self.successfullyUpdated = false
                     } else {
                         // Email updated.
@@ -134,26 +134,26 @@ class ProfileTableViewController: UITableViewController {
                 }
             }
             
-            if let newPassword = self.passwordTextField.text where newPassword != "" {
+            if let newPassword = self.passwordTextField.text , newPassword != "" {
                 if newPassword == verifyPassTextField.text {
                     self.user?.updatePassword(newPassword) { error in
                         if let error = error {
                             // An error happened.
                             
-                            let alertControll = UIAlertController(title: "Alert", message: "Password must be at least 6 digits!", preferredStyle: .Alert)
-                            alertControll.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+                            let alertControll = UIAlertController(title: "Alert", message: "Password must be at least 6 digits!", preferredStyle: .alert)
+                            alertControll.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
                             
-                            self.presentViewController(alertControll, animated: true, completion: nil)
+                            self.present(alertControll, animated: true, completion: nil)
                             self.successfullyUpdated = false
                         } else {
                             // Password updated.
                         }
                     }
                 } else {
-                    let alertController = UIAlertController(title: "Warning", message: "Your passwords doesn't match", preferredStyle: .Alert)
-                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                    let alertController = UIAlertController(title: "Warning", message: "Your passwords doesn't match", preferredStyle: .alert)
+                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                     
-                    self.presentViewController(alertController, animated: true, completion: nil)
+                    self.present(alertController, animated: true, completion: nil)
                     self.successfullyUpdated = false
                 }
             }
@@ -169,10 +169,10 @@ class ProfileTableViewController: UITableViewController {
                     // Get a reference to the storage service, using the default Firebase App
                     let storage = FIRStorage.storage()
                     // Create a storage reference from our storage service
-                    let storageRef = storage.referenceForURL("gs://test-ae2fd.appspot.com")
+                    let storageRef = storage.reference(forURL: "gs://test-ae2fd.appspot.com")
                     let profilePicRef = storageRef.child("images"+"/Profile pictures"+"/\(user.uid).jpg")
-                    let data: NSData = UIImageJPEGRepresentation(self.profileImage.image!, 1)!
-                    let uploadTask = profilePicRef.putData(data, metadata: nil) { metadata, error in
+                    let data: Data = UIImageJPEGRepresentation(self.profileImage.image!, 1)!
+                    let uploadTask = profilePicRef.put(data, metadata: nil) { metadata, error in
                         if (error != nil) {
                             // Uh-oh, an error occurred!
                             self.successfullyUpdated = false
@@ -184,14 +184,14 @@ class ProfileTableViewController: UITableViewController {
                 }
             }
             
-            if let birthday = birthdayTextField.text where birthday != "" {
+            if let birthday = birthdayTextField.text , birthday != "" {
                 self.ref.child("Users").child(user!.uid).child("Personal information/Birthday").setValue(birthday)
             }
         } else {
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let mainView = mainStoryboard.instantiateViewControllerWithIdentifier("mainView")
+            let mainView = mainStoryboard.instantiateViewController(withIdentifier: "mainView")
             
-            self.presentViewController(mainView, animated: true, completion: nil)
+            self.present(mainView, animated: true, completion: nil)
         }
     }
     
@@ -203,13 +203,13 @@ extension ProfileTableViewController: UIImagePickerControllerDelegate, UINavigat
     
     //imagePicker Delegate
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         selectedPhoto = info[UIImagePickerControllerEditedImage] as? UIImage
         self.profileImage.image = selectedPhoto
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
     }
 }
