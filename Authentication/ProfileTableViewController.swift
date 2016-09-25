@@ -34,12 +34,11 @@ class ProfileTableViewController: UITableViewController {
         self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width/2
         self.profileImage.clipsToBounds = true
         
-        //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileTableViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
-        
         let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileTableViewController.selectPhoto(_:)))
         profileImage.addGestureRecognizer(tapRecognizer)
+        
+        tapDismissGesture()
+
         
         // User is signed in.
         let name = user?.displayName
@@ -78,11 +77,7 @@ class ProfileTableViewController: UITableViewController {
         })
         
     }
-    
-    func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
-    }
+
     
     func selectPhoto(_ gestureRecognizer: UITapGestureRecognizer)
     {

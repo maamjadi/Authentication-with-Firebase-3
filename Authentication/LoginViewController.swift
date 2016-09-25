@@ -38,78 +38,98 @@ class LoginViewController: UIViewController {
         }
         
         //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    //Calls this function when the tap is recognized.
-    func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
+        tapDismissGesture()
+        
     }
     
     
     @IBAction func login() {
-        if let email = emailTextField.text {
-            if let pass = passwordTextField.text {
+        guard let email = emailTextField.text , !email.isEmpty, let pass = passwordTextField.text , !pass.isEmpty else {
+            let alertController = UIAlertController(title: "Warning", message: "Please fill all the informations", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            
+            self.present(alertController, animated: true, completion: nil)
+            return
+        }
+        
+        UserService.userService.signIn("Email", email: email, pass: pass)
+        if let checkSignIn: Bool = UserService.giveError() {
+            self.hidden(true)
+            self.startingViewSpinner.startAnimating()
+            if checkSignIn == true {
+                print("User has been loged in successfully")
+                let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.login()
+            } else {
+                self.hidden(false)
+                self.startingViewSpinner.stopAnimating()
+                let alertController = UIAlertController(title: "Warning", message: "There is an Error, please try again later", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                 
-                FIRAuth.auth()?.signIn(withEmail: email, password: pass, completion: { (user, error) in
-                    
-                    if error != nil {
-                        let alertController = UIAlertController(title: "Alert", message: "Error", preferredStyle: .alert)
-                        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-                        
-                        self.present(alertController, animated: true, completion: nil)
-                    }
-                    else {
-                        let alertController = UIAlertController(title: "Alert", message: "You have been loged in", preferredStyle: .alert)
-                        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-                        
-                        self.present(alertController, animated: true, completion: nil)
-                    }
-                    
-                })
+                self.present(alertController, animated: true, completion: nil)
                 
             }
         }
+        
     }
     
     @IBAction func facebookLoginButton() {
         
-        self.hidden(true)
-        self.startingViewSpinner.startAnimating()
         
-        let login: FBSDKLoginManager = FBSDKLoginManager()
-        login.logIn(withReadPermissions: ["public_profile", "email", "user_friends"], from: self, handler: { (result, error) -> Void in
-            
-            if error != nil {
+        UserService.userService.signIn("Facebook", email: nil, pass: nil)
+        if let checkSignIn: Bool = UserService.giveError() {
+            self.hidden(true)
+            self.startingViewSpinner.startAnimating()
+            if checkSignIn == true {
+                print("User has been loged in successfully")
+                let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.login()
+                
+            } else {
                 self.hidden(false)
                 self.startingViewSpinner.stopAnimating()
-                let alertController = UIAlertController(title: "Alert", message: "Error...", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "Warning", message: "There is an Error, please try again later", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                 
                 self.present(alertController, animated: true, completion: nil)
-            }
                 
-            else if (result?.isCancelled)! {
-                self.hidden(false)
-                self.startingViewSpinner.stopAnimating()
-                let alertController = UIAlertController(title: "Alert", message: "Process Canceled...", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-                
-                self.present(alertController, animated: true, completion: nil)
             }
-                
-            else {
-                let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-                FIRAuth.auth()?.signIn(with: credential) { (user, error) in
-                    
-                    print("You have been loged in")
-                }
-            }
-            
-        })
+        }
         
+        
+        //        let login: FBSDKLoginManager = FBSDKLoginManager()
+        //        login.logIn(withReadPermissions: ["public_profile", "email", "user_friends"], from: self, handler: { (result, error) -> Void in
+        //
+        //            if error != nil {
+        //                self.hidden(false)
+        //                self.startingViewSpinner.stopAnimating()
+        //                let alertController = UIAlertController(title: "Alert", message: "Error...", preferredStyle: .alert)
+        //                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+        //
+        //                self.present(alertController, animated: true, completion: nil)
+        //            }
+        //
+        //            else if (result?.isCancelled)! {
+        //                self.hidden(false)
+        //                self.startingViewSpinner.stopAnimating()
+        //                let alertController = UIAlertController(title: "Alert", message: "Process Canceled...", preferredStyle: .alert)
+        //                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+        //
+        //                self.present(alertController, animated: true, completion: nil)
+        //            }
+        //
+        //            else {
+        //                let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+        //                FIRAuth.auth()?.signIn(with: credential) { (user, error) in
+        //                    if error == nil {
+        //                    print("You have been loged in")
+        //
+        //                    }
+        //                }
+        //            }
+        //
+        //        })
+        //
     }
     
     func hidden(_ bool: Bool) {

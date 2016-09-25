@@ -20,10 +20,14 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var vertifyPassTextField: UITextField!
     @IBOutlet weak var loadingSpinner: UIActivityIndicatorView!
     @IBOutlet weak var signUpButton: UIButton!
+    @IBOutlet weak var dismissButton: UIButton!
     
     let imagePicker = UIImagePickerController()
     var selectedPhoto: UIImage! = UIImage(named: "profile pic")!
     
+    @IBAction func dissmisButton(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     let ref = FIRDatabase.database().reference()
     
@@ -35,6 +39,7 @@ class SignUpViewController: UIViewController {
         FIRAuth.auth()?.addStateDidChangeListener { auth, user in
             if let user = user {
                 // User is signed in.
+                self.deregisterFromKeyboardNotifications()
                 let mainStoryBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let mainViewController: UIViewController = mainStoryBoard.instantiateViewController(withIdentifier: "mainView")
                 
@@ -48,19 +53,16 @@ class SignUpViewController: UIViewController {
         self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width/2
         self.profileImage.clipsToBounds = true
         
-        //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileTableViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
-        
+        //Looks for single or multiple taps.        
         let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileTableViewController.selectPhoto(_:)))
         profileImage.addGestureRecognizer(tapRecognizer)
+        
+        tapDismissGesture()
+        
+        registerForKeyboardNotifications()
+
     }
     
-    //Calls this function when the tap is recognized.
-    func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
-    }
     
     func selectPhoto(_ gestureRecognizer: UITapGestureRecognizer)
     {
@@ -86,32 +88,42 @@ class SignUpViewController: UIViewController {
             
             return
         }
-        if let pass = passwordTextField.text {
-            if let verPass = vertifyPassTextField.text {
-                if pass == verPass {
-                    self.hidden(true)
-                    self.loadingSpinner.startAnimating()
-                    var data = Data()
-                    data = UIImageJPEGRepresentation(profileImage.image!, 0.1)!
-                    if UserService.userService.signUp(nameTextField.text!, email: emailTextField.text!, pass: passwordTextField.text!, imageData: data) {
-                        
-                    } else {
-                        self.hidden(false)
-                        self.loadingSpinner.stopAnimating()
-                    }
+        if pass == verPass {
+            var data = Data()
+            data = UIImageJPEGRepresentation(profileImage.image!, 0.1)!
+            UserService.userService.signUp(nameTextField.text!, email: emailTextField.text!, pass: passwordTextField.text!, imageData: data)
+            if let checkSignUp: Bool = UserService.giveError() {
+                self.hidden(true)
+                self.loadingSpinner.startAnimating()
+                if checkSignUp == true {
+                    print("User successfully signed up")
+                    
+                    deregisterFromKeyboardNotifications()
                     let appDelegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDelegate.login()
-                } else {
-                    let alertController = UIAlertController(title: "Warning", message: "Your passwords doesn't match", preferredStyle: .alert)
+                    
+                    
+                }
+                else if checkSignUp == false {
+                    self.hidden(false)
+                    self.loadingSpinner.stopAnimating()
+                    
+                    let alertController = UIAlertController(title: "Warning", message: "Something went wrong, please try again later", preferredStyle: .alert)
                     alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                     
                     self.present(alertController, animated: true, completion: nil)
-                    
                 }
             }
             
+        } else {
+            let alertController = UIAlertController(title: "Warning", message: "Your passwords doesn't match", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            
+            self.present(alertController, animated: true, completion: nil)
+            
         }
     }
+    
     
     func hidden(_ bool: Bool) {
         self.nameTextField.isHidden = bool
@@ -120,6 +132,7 @@ class SignUpViewController: UIViewController {
         self.passwordTextField.isHidden = bool
         self.profileImage.isHidden = bool
         self.signUpButton.isHidden = bool
+        self.dismissButton.isHidden = bool
     }
     
     

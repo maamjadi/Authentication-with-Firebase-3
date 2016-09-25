@@ -93,7 +93,7 @@ class MainViewController: UIViewController {
             }
             
             if profilePicExistInStorage != true {
-                var profilePic = FBSDKGraphRequest(graphPath: "me/picture", parameters: ["height": 300, "width": 300, "redirect": false], httpMethod: "GET")
+                let profilePic = FBSDKGraphRequest(graphPath: "me/picture", parameters: ["height": 300, "width": 300, "redirect": false], httpMethod: "GET")
                 profilePic?.start(completionHandler: {(connection, result, error) -> Void in
                     // Handle the result
                     

@@ -11,32 +11,30 @@ import Firebase
 import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
+import FBSDKLoginKit
 
 class UserService {
     
     static let userService = UserService()
     
     fileprivate let ref = FIRDatabase.database().reference()
-    fileprivate let storage = FIRStorage.storage()
+    fileprivate let storageRef = FIRStorage.storage().reference()
     // Create a storage reference from our storage service
-    fileprivate let storageRef = userService.storage.reference(forURL: "gs://test-ae2fd.appspot.com")
     
     
-    func signUp(_ name: String, email: String, pass: String, imageData: Data) -> Bool {
-        var checkError: Bool = true
+    func signUp(_ name: String, email: String, pass: String, imageData: Data) {
+        UserService.error.checkError = nil
         FIRAuth.auth()?.createUser(withEmail: email, password: pass, completion: { (user , error) in
+            UserService.error.checkError = true
             if error != nil {
                 print(error?.localizedDescription)
-                checkError = false
+                UserService.error.checkError = false
+                return
                 
             } else {
                 if let user = FIRAuth.auth()?.currentUser {
                     
-                    print("You have been signed up successfully")
-                    
-                    
                     let profilePicRef = self.storageRef.child("images"+"/Profile pictures"+"/\(user.uid).jpg")
-                    
                     
                     self.ref.child("Users").child(user.uid).child("Licence/Type").setValue("free")
                     self.ref.child("Users").child(user.uid).child("Licence/Date of creation").setValue(FIRServerValue.timestamp())
@@ -47,7 +45,8 @@ class UserService {
                     changeRequest.commitChanges { error in
                         if let error = error {
                             // An error happened.
-                            checkError = false
+                            UserService.error.checkError = false
+                            return
                         } else {
                             // Profile updated.
                         }
@@ -58,25 +57,104 @@ class UserService {
                             //size, content type or the download URL
                             let downloadURL: String = metadata!.downloadURLs![0].absoluteString
                             let changeRequest = user.profileChangeRequest()
-                            
+                            changeRequest.photoURL = NSURL(fileURLWithPath: downloadURL) as URL
                             changeRequest.commitChanges { error in
                                 if let error = error {
                                     // An error happened.
                                     print(error.localizedDescription)
-                                    checkError = false
+                                    UserService.error.checkError = false
+                                    return
                                 } else {
                                     // Profile updated.
                                 }
                             }
-                            
                         } else {
                             print("error in uploading the image")
-                            checkError = false
+                            UserService.error.checkError = false
+                            return
                         }
                     }
+                    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.login()
                 }
             }
         })
-        return checkError
+    }
+    private struct error {
+        static var checkError: Bool? {
+            get {
+                return self.checkError
+            }
+            set {
+                if let value = newValue {
+                self.checkError = value
+                }
+            }
+        }
+    }
+    
+    class func giveError() -> Bool? {
+        return UserService.error.checkError
+    }
+    
+    func signIn(_ method: String, email: String?, pass: String?) {
+        UserService.error.checkError = nil
+        switch method {
+            
+        case "Email":
+            FIRAuth.auth()?.signIn(withEmail: email!, password: pass!, completion: { (user, error) in
+                UserService.error.checkError = true
+                if error != nil {
+                    //                let alertController = UIAlertController(title: "Alert", message: "Error", preferredStyle: .alert)
+                    //                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    //
+                    //                self.present(alertController, animated: true, completion: nil)
+                    UserService.error.checkError = false
+                    return
+                } else {
+                    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.login()
+                }
+                
+            })
+            
+        case "Facebook":
+            let login: FBSDKLoginManager = FBSDKLoginManager()
+            login.logIn(withReadPermissions: ["public_profile", "email", "user_friends"], handler: { (result, error) -> Void in
+                
+                if error != nil {
+                    UserService.error.checkError = false
+                    return
+                }
+                    
+                else if (result?.isCancelled)! {
+                    UserService.error.checkError = false
+                    return
+                }
+                    
+                else {
+                    let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+                    FIRAuth.auth()?.signIn(with: credential) { (user, error) in
+                        if error == nil {
+                            print("You have been loged in")
+                            var refHandle = self.ref.child("Users").observe(FIRDataEventType.value, with: { (snapshot) in
+                                if !(snapshot.hasChild((user?.uid)! + "/Licence")) {
+                                    self.ref.child("Users").child((user?.uid)!).child("Licence/Type").setValue("free")
+                                    self.ref.child("Users").child((user?.uid)!).child("Licence/Date of creation").setValue(FIRServerValue.timestamp())
+                                }
+                            })
+                            
+                        } else {
+                            UserService.error.checkError = false
+                            return
+                        }
+                    }
+                }
+                
+            })
+        //        case "Google":
+        default: break
+        }
+        
     }
 }

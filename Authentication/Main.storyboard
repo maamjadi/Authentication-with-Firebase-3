@@ -334,7 +334,7 @@
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
-                                                <action selector="logOut" destination="26N-iS-Ybf" eventType="touchUpInside" id="IgM-YR-Qqm"/>
+                                                <action selector="logOut" destination="26N-iS-Ybf" eventType="touchUpInside" id="Mty-bY-pVj"/>
                                             </connections>
                                         </button>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3xt-yf-be9">
@@ -374,7 +374,7 @@
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
-                                                <segue destination="nvR-B9-Q2O" kind="show" id="6mo-OS-LfY"/>
+                                                <segue destination="nvR-B9-Q2O" kind="show" id="fJj-Hf-Kcq"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type of Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VsP-QA-SsP">
@@ -460,10 +460,10 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="loadingSpinner" destination="BZk-eU-Zhk" id="YFs-Oy-UAg"/>
-                        <outlet property="nameTextField" destination="VU3-3z-Mr1" id="LnE-87-Na2"/>
-                        <outlet property="profileImage" destination="3xt-yf-be9" id="jUR-od-qxp"/>
-                        <outlet property="typeOfAccTextField" destination="VsP-QA-SsP" id="P4Z-9r-mr7"/>
+                        <outlet property="loadingSpinner" destination="BZk-eU-Zhk" id="PA1-VS-R5F"/>
+                        <outlet property="nameTextField" destination="VU3-3z-Mr1" id="xIV-Qh-nFN"/>
+                        <outlet property="profileImage" destination="3xt-yf-be9" id="Hes-3o-2zj"/>
+                        <outlet property="typeOfAccTextField" destination="VsP-QA-SsP" id="c8c-EB-Eaf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PUW-mm-tao" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -827,7 +827,7 @@
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
-                                                <segue destination="BYZ-38-t0r" kind="presentation" modalTransitionStyle="crossDissolve" id="tHw-m4-gGR"/>
+                                                <action selector="dissmisButton:" destination="b7s-Vo-KiZ" eventType="touchUpInside" id="wlQ-O0-nfK"/>
                                             </connections>
                                         </button>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Email Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P3c-2W-rKo">
@@ -1091,6 +1091,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="dismissButton" destination="UNe-Jt-ZRv" id="MYr-B4-xti"/>
                         <outlet property="emailTextField" destination="P3c-2W-rKo" id="l4u-Bu-grr"/>
                         <outlet property="loadingSpinner" destination="S3f-cY-9aJ" id="acH-O5-IMb"/>
                         <outlet property="nameTextField" destination="b6n-x9-mXm" id="hj1-Xc-Kv3"/>
@@ -1109,7 +1110,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nvR-B9-Q2O" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="srM-b5-xJv">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="srM-b5-xJv">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
