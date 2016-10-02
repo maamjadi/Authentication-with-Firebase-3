@@ -15,6 +15,8 @@ import FBSDKLoginKit
 
 class UserService {
     
+    var manageError = Error()
+    
     static let userService = UserService()
     
     fileprivate let ref = FIRDatabase.database().reference()
@@ -23,12 +25,15 @@ class UserService {
     
     
     func signUp(_ name: String, email: String, pass: String, imageData: Data) {
-        UserService.error.checkError = nil
+//        UserService.error.checkError = nil
+        manageError.changeError(typeOfError: "UserService", error: nil)
         FIRAuth.auth()?.createUser(withEmail: email, password: pass, completion: { (user , error) in
-            UserService.error.checkError = true
+//            UserService.error.checkError = true
+            self.manageError.changeError(typeOfError: "UserService", error: true)
             if error != nil {
                 print(error?.localizedDescription)
-                UserService.error.checkError = false
+//                UserService.error.checkError = false
+                self.manageError.changeError(typeOfError: "UserService", error: false)
                 return
                 
             } else {
@@ -45,7 +50,8 @@ class UserService {
                     changeRequest.commitChanges { error in
                         if let error = error {
                             // An error happened.
-                            UserService.error.checkError = false
+//                            UserService.error.checkError = false
+                            self.manageError.changeError(typeOfError: "UserService", error: false)
                             return
                         } else {
                             // Profile updated.
@@ -62,7 +68,8 @@ class UserService {
                                 if let error = error {
                                     // An error happened.
                                     print(error.localizedDescription)
-                                    UserService.error.checkError = false
+//                                    UserService.error.checkError = false
+                                    self.manageError.changeError(typeOfError: "UserService", error: false)
                                     return
                                 } else {
                                     // Profile updated.
@@ -70,7 +77,8 @@ class UserService {
                             }
                         } else {
                             print("error in uploading the image")
-                            UserService.error.checkError = false
+//                            UserService.error.checkError = false
+                            self.manageError.changeError(typeOfError: "UserService", error: false)
                             return
                         }
                     }
@@ -80,36 +88,31 @@ class UserService {
             }
         })
     }
-    private struct error {
-        static var checkError: Bool? {
-            get {
-                return self.checkError
-            }
-            set {
-                if let value = newValue {
-                self.checkError = value
-                }
-            }
-        }
-    }
     
-    class func giveError() -> Bool? {
-        return UserService.error.checkError
-    }
+//    private struct error {
+//        static var checkError: Bool?
+//    }
+//    
+//    class func giveError() -> Bool? {
+//        return UserService.error.checkError
+//    }
     
     func signIn(_ method: String, email: String?, pass: String?) {
-        UserService.error.checkError = nil
+//        UserService.error.checkError = nil
+        manageError.changeError(typeOfError: "UserService", error: nil)
         switch method {
             
         case "Email":
             FIRAuth.auth()?.signIn(withEmail: email!, password: pass!, completion: { (user, error) in
-                UserService.error.checkError = true
+//                UserService.error.checkError = true
+                self.manageError.changeError(typeOfError: "UserService", error: true)
                 if error != nil {
                     //                let alertController = UIAlertController(title: "Alert", message: "Error", preferredStyle: .alert)
                     //                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
                     //
                     //                self.present(alertController, animated: true, completion: nil)
-                    UserService.error.checkError = false
+//                    UserService.error.checkError = false
+                    self.manageError.changeError(typeOfError: "UserService", error: false)
                     return
                 } else {
                     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -123,12 +126,14 @@ class UserService {
             login.logIn(withReadPermissions: ["public_profile", "email", "user_friends"], handler: { (result, error) -> Void in
                 
                 if error != nil {
-                    UserService.error.checkError = false
+//                    UserService.error.checkError = false
+                    self.manageError.changeError(typeOfError: "UserService", error: false)
                     return
                 }
                     
                 else if (result?.isCancelled)! {
-                    UserService.error.checkError = false
+//                    UserService.error.checkError = false
+                    self.manageError.changeError(typeOfError: "UserService", error: false)
                     return
                 }
                     
@@ -145,7 +150,8 @@ class UserService {
                             })
                             
                         } else {
-                            UserService.error.checkError = false
+//                            UserService.error.checkError = false
+                            self.manageError.changeError(typeOfError: "UserService", error: false)
                             return
                         }
                     }

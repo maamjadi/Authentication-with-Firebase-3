@@ -19,6 +19,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var startingViewSpinner: UIActivityIndicatorView!
     
+    var manageError = Error()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,7 +55,8 @@ class LoginViewController: UIViewController {
         }
         
         UserService.userService.signIn("Email", email: email, pass: pass)
-        if let checkSignIn: Bool = UserService.giveError() {
+//        if let checkSignIn: Bool = UserService.giveError() {
+        if let checkSignIn: Bool = manageError.giveError(typeOfError: "UserService") {
             self.hidden(true)
             self.startingViewSpinner.startAnimating()
             if checkSignIn == true {
@@ -77,7 +80,8 @@ class LoginViewController: UIViewController {
         
         
         UserService.userService.signIn("Facebook", email: nil, pass: nil)
-        if let checkSignIn: Bool = UserService.giveError() {
+//        if let checkSignIn: Bool = UserService.giveError() {
+        if let checkSignIn: Bool = manageError.giveError(typeOfError: "UserService") {
             self.hidden(true)
             self.startingViewSpinner.startAnimating()
             if checkSignIn == true {

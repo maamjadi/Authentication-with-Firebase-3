@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Authentication/LoginViewController.swift"
-            timestampString = "496529343.62645"
+            timestampString = "497099068.187882"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
             landmarkName = "login()"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Authentication/UserService.swift"
-            timestampString = "496505936.683058"
+            timestampString = "497099068.187882"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "signIn(_:email:pass:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Authentication/UserService.swift"
-            timestampString = "496505936.683058"
+            timestampString = "497099068.187882"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "signIn(_:email:pass:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Authentication/UserService.swift"
-            timestampString = "496505936.683058"
+            timestampString = "497099068.187882"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "signIn(_:email:pass:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Authentication/UserService.swift"
-            timestampString = "496505936.683058"
+            timestampString = "497099068.187882"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "signIn(_:email:pass:)"
             landmarkType = "7">
             <Locations>
@@ -90,12 +90,12 @@
                   moduleName = "Authentication"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/AIT/Developer/swift/Authentication/Authentication/UserService.swift"
-                  timestampString = "496529344.817723"
+                  timestampString = "497099070.179261"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "137"
-                  endingLineNumber = "137"
-                  offsetFromSymbolStart = "815">
+                  startingLineNumber = "142"
+                  endingLineNumber = "142"
+                  offsetFromSymbolStart = "1003">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -105,11 +105,11 @@
                   moduleName = "Authentication"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/AIT/Developer/swift/Authentication/Authentication/UserService.swift"
-                  timestampString = "496529344.820666"
+                  timestampString = "497099070.183949"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "138"
-                  endingLineNumber = "138"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
                   offsetFromSymbolStart = "23">
                </Location>
             </Locations>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Authentication/UserService.swift"
-            timestampString = "496505936.683058"
+            timestampString = "497099068.187882"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
             landmarkName = "signIn(_:email:pass:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,7 +154,7 @@
                   moduleName = "Authentication"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/AIT/Developer/swift/Authentication/Authentication/MainViewController.swift"
-                  timestampString = "496529344.829587"
+                  timestampString = "497099070.192126"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "107"
@@ -169,7 +169,7 @@
                   moduleName = "Authentication"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/AIT/Developer/swift/Authentication/Authentication/MainViewController.swift"
-                  timestampString = "496529344.831954"
+                  timestampString = "497099070.193594"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "109"
@@ -218,7 +218,7 @@
                   moduleName = "Authentication"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/AIT/Developer/swift/Authentication/Authentication/MainViewController.swift"
-                  timestampString = "496529344.840598"
+                  timestampString = "497099070.200896"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "105"
@@ -233,7 +233,7 @@
                   moduleName = "Authentication"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/AIT/Developer/swift/Authentication/Authentication/MainViewController.swift"
-                  timestampString = "496529344.843266"
+                  timestampString = "497099070.202646"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "105"
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Authentication/UserService.swift"
-            timestampString = "496501527.8318"
+            timestampString = "497099068.187882"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
             landmarkName = "signUp(_:email:pass:imageData:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Authentication/UserService.swift"
-            timestampString = "496501527.8318"
+            timestampString = "497099068.187882"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "signUp(_:email:pass:imageData:)"
             landmarkType = "7">
             <Locations>
@@ -298,12 +298,12 @@
                   moduleName = "Authentication"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/AIT/Developer/swift/Authentication/Authentication/UserService.swift"
-                  timestampString = "496529344.853965"
+                  timestampString = "497099070.215298"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "81"
-                  endingLineNumber = "81"
-                  offsetFromSymbolStart = "774">
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "864">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -313,12 +313,12 @@
                   moduleName = "Authentication"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/AIT/Developer/swift/Authentication/Authentication/UserService.swift"
-                  timestampString = "496529344.855972"
+                  timestampString = "497099070.218945"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "81"
-                  endingLineNumber = "81"
-                  offsetFromSymbolStart = "4399">
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "4635">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -330,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Authentication/UserService.swift"
-            timestampString = "496505936.683058"
+            timestampString = "497099068.187882"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "signIn(_:email:pass:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -342,15 +342,31 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Authentication/LoginViewController.swift"
-            timestampString = "496529343.62645"
+            timestampString = "497099068.187882"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "facebookLoginButton()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Authentication/LoginViewController.swift"
+            timestampString = "497099068.187882"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
             landmarkName = "facebookLoginButton()"
             landmarkType = "7">
          </BreakpointContent>
@@ -362,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Authentication/LoginViewController.swift"
-            timestampString = "496529343.62645"
+            timestampString = "497099068.187882"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
             landmarkName = "facebookLoginButton()"
             landmarkType = "7">
          </BreakpointContent>

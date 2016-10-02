@@ -22,6 +22,8 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var dismissButton: UIButton!
     
+    var manageError = Error()
+    
     let imagePicker = UIImagePickerController()
     var selectedPhoto: UIImage! = UIImage(named: "profile pic")!
     
@@ -92,7 +94,8 @@ class SignUpViewController: UIViewController {
             var data = Data()
             data = UIImageJPEGRepresentation(profileImage.image!, 0.1)!
             UserService.userService.signUp(nameTextField.text!, email: emailTextField.text!, pass: passwordTextField.text!, imageData: data)
-            if let checkSignUp: Bool = UserService.giveError() {
+//            if let checkSignUp: Bool = UserService.giveError() {
+            if let checkSignUp: Bool = manageError.giveError(typeOfError: "UserService") {
                 self.hidden(true)
                 self.loadingSpinner.startAnimating()
                 if checkSignUp == true {
